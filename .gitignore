@@ -1,0 +1,15 @@
+# Секреты и переменные окружения
+.env
+.env.*
+!.env.example
+
+# Зависимости
+node_modules/
+
+# Архивы сборки
+*.zip
+function-build.zip
+
+# Системные файлы
+.DS_Store
+*.log

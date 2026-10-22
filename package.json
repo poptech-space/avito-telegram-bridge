@@ -1,0 +1,31 @@
+{
+  "name": "avito-telegram-bridge",
+  "version": "1.0.0",
+  "description": "Автономный серверлесс-мост между Авито (Messenger API) и Telegram (Bot API) без абонентских плат",
+  "main": "index.js",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alex-grishchenkov/avito-telegram-bridge.git"
+  },
+  "scripts": {
+    "test": "node test/run-mock.js",
+    "deploy": "./deploy.sh",
+    "ping": "node scripts/test-live-ping.js",
+    "register:tg": "node scripts/register-telegram-webhook.js",
+    "register:avito": "node scripts/register-avito-webhook.js",
+    "emulator": "node scripts/emulator.js",
+    "simulate": "node scripts/simulate-webhook.js"
+  },
+  "keywords": [
+    "avito",
+    "telegram",
+    "telegram-serverless",
+    "serverless",
+    "yandex-cloud-functions",
+    "auto-reply",
+    "avito-api"
+  ],
+  "author": "Alexander Grishchenkov <grishchenkov@gmail.com> (https://poptech.space)",
+  "license": "MIT"
+}

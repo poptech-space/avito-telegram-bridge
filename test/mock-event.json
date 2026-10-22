@@ -1,0 +1,8 @@
+{
+  "httpMethod": "POST",
+  "isBase64Encoded": false,
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"payload\":{\"value\":{\"id\":\"msg_mock_123456789\",\"chat_id\":\"u2i-mockchat-882299\",\"user_id\":100200300,\"author_id\":99887766,\"author_name\":\"Алексей\",\"created\":1728919200,\"type\":\"text\",\"content\":{\"text\":\"Здравствуйте! Подскажите, свободна ли дата на субботу и сколько стоит выезд?\"},\"item_id\":483920194,\"item_title\":\"Выездной ремонт и диагностика под ключ\"}}}"
+}
