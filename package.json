@@ -6,7 +6,7 @@
   "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/alex-grishchenkov/avito-telegram-bridge.git"
+    "url": "https://github.com/poptech-space/avito-telegram-bridge.git"
   },
   "scripts": {
     "test": "node test/run-mock.js",
@@ -26,6 +26,6 @@
     "auto-reply",
     "avito-api"
   ],
-  "author": "Alexander Grishchenkov <grishchenkov@gmail.com> (https://poptech.space)",
+  "author": "Neuro Studio (https://neuro.poptech.space/)",
   "license": "MIT"
 }
