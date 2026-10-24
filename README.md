@@ -9,8 +9,8 @@
 
 Позволяет мгновенно отвечать покупателям за <1 секунду, защищать зеленый бейдж **«Отвечает за минуту»** в поиске Авито и вести переписку с клиентами прямо из Telegram через обычный свайп (Reply).
 
-Разработано в [Neuro Studio](https://neuro.poptech.space/).  
-> Если у вас пока нет тарифа с доступом к API Авито — используйте наше бесплатное расширение [Авито Быстрые Ответы в Chrome Web Store](https://chromewebstore.google.com/detail/hngdekjlclppfbnogomclobgmbbgadpl).
+Разработано в [Neuro Studio](https://poptech.space/neurostudio).  
+> Если у вас пока нет тарифа с доступом к API Авито — используйте наше бесплатное расширение [Авито Быстрые Ответы в Chrome Web Store](https://chromewebstore.google.com/detail/hngdekjlclppfbnogomclobgmbbgadpl) (подробнее на [странице сервиса](https://poptech.space/avito)).
 
 ---
 
@@ -127,4 +127,4 @@ npm run register:avito
 ## Лицензия
 MIT — разрешено свободное коммерческое и личное использование.
 
-Разработано в [Neuro Studio](https://neuro.poptech.space/).
+Разработано в [Neuro Studio](https://poptech.space/neurostudio).
