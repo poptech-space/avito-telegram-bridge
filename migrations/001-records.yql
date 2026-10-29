@@ -1,0 +1,15 @@
+-- Separate owner-authorized migration. Existing leads table is retained for history.
+CREATE TABLE IF NOT EXISTS bot_records (
+  id Utf8 NOT NULL,
+  document Utf8 NOT NULL,
+  expires_at Timestamp NOT NULL,
+  PRIMARY KEY (id)
+) WITH (TTL = Interval("PT0S") ON expires_at);
+
+-- Pending-actor index updated in the same transaction as lead+delivery state.
+CREATE TABLE IF NOT EXISTS bot_queue (
+  id Utf8 NOT NULL,
+  document Utf8 NOT NULL,
+  expires_at Timestamp NOT NULL,
+  PRIMARY KEY (id)
+) WITH (TTL = Interval("PT0S") ON expires_at);

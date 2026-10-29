@@ -1,7 +1,7 @@
 {
   "name": "avito-telegram-bridge",
   "version": "1.0.0",
-  "description": "Автономный серверлесс-мост между Авито (Messenger API) и Telegram (Bot API) без абонентских плат",
+  "description": "Avito ↔ Telegram: защищённый webhook и управляемая доставка на YCF + YDB",
   "main": "index.js",
   "type": "commonjs",
   "repository": {
@@ -9,13 +9,15 @@
     "url": "https://github.com/poptech-space/avito-telegram-bridge.git"
   },
   "scripts": {
-    "test": "node test/run-mock.js",
+    "test": "node scripts/verify-core.js && node test/run-mock.js && node --test test/*.test.cjs",
     "deploy": "./deploy.sh",
     "ping": "node scripts/test-live-ping.js",
     "register:tg": "node scripts/register-telegram-webhook.js",
     "register:avito": "node scripts/register-avito-webhook.js",
     "emulator": "node scripts/emulator.js",
-    "simulate": "node scripts/simulate-webhook.js"
+    "simulate": "node scripts/simulate-webhook.js",
+    "ops": "./ops/run",
+    "verify:core": "node scripts/verify-core.js"
   },
   "keywords": [
     "avito",
@@ -27,5 +29,11 @@
     "avito-api"
   ],
   "author": "Neuro Studio (https://poptech.space/neurostudio)",
-  "license": "MIT"
+  "license": "MIT",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "dependencies": {
+    "ydb-sdk": "5.11.1"
+  }
 }

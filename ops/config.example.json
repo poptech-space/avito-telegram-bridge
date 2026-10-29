@@ -1,0 +1,39 @@
+{
+  "client": "example-client",
+  "environment": "staging",
+  "provider": "ycf",
+  "remote": "REPLACE_WITH_CLIENT_REPOSITORY_URL",
+  "functionId": "REPLACE_WITH_EXISTING_FUNCTION_ID",
+  "folderId": "REPLACE_WITH_CLIENT_FOLDER_ID",
+  "serviceAccountId": "REPLACE_WITH_CLIENT_SERVICE_ACCOUNT_ID",
+  "entrypoint": "index.handler",
+  "memory": 268435456,
+  "timeout": "25s",
+  "environmentVariables": {
+    "TELEGRAM_CHAT_ID": "REPLACE_WITH_VERIFIED_OPERATOR_ID",
+    "TELEGRAM_BOT_ID": "REPLACE_WITH_VERIFIED_BOT_ID",
+    "AVITO_USER_ID": "REPLACE_WITH_VERIFIED_SELLER_ID",
+    "AUTO_REPLY_ENABLED": "false",
+    "DELIVERY_ENABLED": "false",
+    "YDB_ENDPOINT": "grpcs://ydb.serverless.yandexcloud.net:2135",
+    "YDB_DATABASE": "/REPLACE_WITH_CLIENT_DATABASE"
+  },
+  "botIdentities": [
+    {
+      "platform": "telegram",
+      "id": "REPLACE_WITH_VERIFIED_BOT_ID",
+      "secretVariable": "TELEGRAM_BOT_TOKEN"
+    }
+  ],
+  "migrationIds": [
+    "001-records"
+  ],
+  "secretEnvironment": {
+    "TELEGRAM_BOT_TOKEN": "DEPLOY_TELEGRAM_BOT_TOKEN",
+    "TG_WEBHOOK_SECRET": "DEPLOY_TG_WEBHOOK_SECRET",
+    "AVITO_CLIENT_ID": "DEPLOY_AVITO_CLIENT_ID",
+    "AVITO_CLIENT_SECRET": "DEPLOY_AVITO_CLIENT_SECRET",
+    "AVITO_WEBHOOK_SECRET": "DEPLOY_AVITO_WEBHOOK_SECRET",
+    "BOT_DATA_SECRET": "DEPLOY_BOT_DATA_SECRET"
+  }
+}

@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+export ANSIBLE_LOCAL_TEMP=/private/tmp
+export ANSIBLE_REMOTE_TEMP="${ANSIBLE_REMOTE_TEMP:-/private/tmp}"
+export ANSIBLE_SSH_CONTROL_PATH_DIR=/private/tmp
+exec ansible-playbook -i localhost, "$(dirname "$0")/playbook.yml" "$@"

@@ -1,0 +1,2 @@
+# Install in a project venv when setting up a fresh workstation.
+ansible-core==2.20.5

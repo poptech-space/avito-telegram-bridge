@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "sourceSha256": "12f3840917d657826be3757acc2820b97ed970ce60f99d0112d37ed40f60421f",
+  "typescript": "5.2.2",
+  "compiled": {
+    "lib/core.js": "ceced3389e58fc7ede537ed649e8f92ecd215847fbfb2f6a150abd2224673ea3"
+  }
+}

@@ -1,0 +1,36 @@
+---
+- name: Independent bot lifecycle on the local workstation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: "{{ ansible_playbook_python }}"
+    bot_operation: status
+  tasks:
+    - name: Validate operation
+      ansible.builtin.assert:
+        that:
+          - ansible_version.full is version('2.20', '>=')
+          - ansible_version.full is version('2.21', '<')
+          - bot_operation in ['status', 'preflight', 'build', 'provision', 'migrate', 'deploy', 'verify', 'rollback', 'handoff']
+          - bot_operation == 'status' or bot_config is defined
+        quiet: true
+    - name: Run controller without shell interpolation
+      ansible.builtin.command:
+        argv:
+          - "{{ ansible_playbook_python }}"
+          - "{{ playbook_dir }}/release.py"
+          - "{{ bot_operation }}"
+          - --root
+          - "{{ playbook_dir }}/.."
+          - --config
+          - "{{ bot_config | default('') }}"
+      no_log: true
+      register: result
+      changed_when: bot_operation in ['build', 'migrate', 'deploy', 'rollback', 'handoff']
+      # No --check simulation of arbitrary cloud commands; explicit status/preflight are read-only.
+      check_mode: false
+      when: not ansible_check_mode or bot_operation in ['status', 'preflight']
+    - name: Display sanitized result
+      ansible.builtin.debug:
+        msg: "{{ result.stdout | default('Skipped mutation in check mode') }}"

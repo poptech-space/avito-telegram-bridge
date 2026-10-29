@@ -1,0 +1,23 @@
+{
+  "providers": [
+    "ycf"
+  ],
+  "requiredEnvironment": [
+    "TELEGRAM_CHAT_ID",
+    "TELEGRAM_BOT_ID",
+    "AVITO_USER_ID",
+    "YDB_ENDPOINT",
+    "YDB_DATABASE"
+  ],
+  "requiredSecrets": [
+    "TELEGRAM_BOT_TOKEN",
+    "TG_WEBHOOK_SECRET",
+    "AVITO_CLIENT_ID",
+    "AVITO_CLIENT_SECRET",
+    "AVITO_WEBHOOK_SECRET",
+    "BOT_DATA_SECRET"
+  ],
+  "identityEnvironment": {
+    "TELEGRAM_BOT_TOKEN": "TELEGRAM_BOT_ID"
+  }
+}

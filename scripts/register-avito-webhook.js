@@ -3,10 +3,9 @@
  * Скрипт регистрации Webhook в Avito Messenger API
  * Использование:
  *   node scripts/register-avito-webhook.js [URL]
- * Если URL не передан, скрипт попытается определить его через yc CLI.
+ * Только явный проверенный HTTPS URL; capability берётся из окружения.
  */
 
-const { execSync } = require('child_process');
 const { loadEnv } = require('../lib/env-loader');
 const { getAccessToken, registerAvitoWebhook } = require('../lib/avito');
 
@@ -22,38 +21,27 @@ if (!clientId || !clientSecret) {
 
 let webhookUrl = process.argv[2];
 
-if (!webhookUrl) {
-  try {
-    const raw = execSync('yc serverless function get --name avito-bridge --format json', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-    const fnData = JSON.parse(raw);
-    if (fnData?.id) {
-      webhookUrl = `https://functions.yandexcloud.net/${fnData.id}`;
-      console.log(`ℹ️ Найден URL функции в Yandex Cloud: ${webhookUrl}`);
-    }
-  } catch (err) {
-    // yc не ответил или функция не создана
-  }
-}
-
-if (!webhookUrl) {
-  console.error('❌ Ошибка: Укажите URL функции:');
-  console.error('  node scripts/register-avito-webhook.js https://functions.yandexcloud.net/<FUNCTION_ID>');
-  process.exit(1);
-}
+if (!webhookUrl) { console.error('Explicit verified HTTPS webhook URL required; no implicit yc account lookup.'); process.exit(1); }
 
 async function main() {
+  const secret = process.env.AVITO_WEBHOOK_SECRET;
+  if (!secret || secret.length < 32) throw new Error('AVITO_WEBHOOK_SECRET must contain at least 32 random characters');
+  const target = new URL(webhookUrl);
+  if (target.protocol !== 'https:' || target.username || target.password || target.search || target.hash)
+    throw new Error('clean_https_url_required');
+  target.searchParams.set('avito_secret', secret);
   console.log('🔑 Авторизация в Avito API (получение токена)...');
   try {
     const token = await getAccessToken(clientId, clientSecret);
     console.log('✅ Токен Avito успешно получен.');
 
-    console.log(`📡 Регистрация Avito Webhook на адрес:\n   ${webhookUrl}...`);
-    const res = await registerAvitoWebhook(token, webhookUrl);
-    console.log('✅ Результат установки Webhook в Авито:', res);
+    console.log('Регистрация Avito webhook (URL скрыт)');
+    const res = await registerAvitoWebhook(token, target.toString());
+    console.log('Webhook registration completed; inspect provider status separately.');
   } catch (err) {
-    console.error('❌ Ошибка при регистрации Webhook в Авито:', err.message);
+    console.error('Webhook registration outcome unknown; inspect provider before retry.');
     process.exit(1);
   }
 }
 
-main();
+main().catch(() => { console.error('Webhook registration refused or failed'); process.exitCode = 1; });

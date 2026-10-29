@@ -13,3 +13,9 @@ function-build.zip
 # Системные файлы
 .DS_Store
 *.log
+
+# Local release outputs (never ship credentials or provider snapshots)
+artifacts/
+.release-lock/
+__pycache__/
+*.pyc

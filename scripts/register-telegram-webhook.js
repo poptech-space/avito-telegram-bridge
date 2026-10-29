@@ -3,10 +3,9 @@
  * Скрипт регистрации Webhook в Telegram Bot API
  * Использование:
  *   node scripts/register-telegram-webhook.js [URL]
- * Если URL не передан, скрипт попытается определить его через yc CLI.
+ * Только явный проверенный HTTPS URL; облачный аккаунт автоматически не выбирается.
  */
 
-const { execSync } = require('child_process');
 const { loadEnv } = require('../lib/env-loader');
 const { setTelegramWebhook, getTelegramWebhookInfo } = require('../lib/telegram');
 
@@ -20,36 +19,19 @@ if (!token) {
 
 let webhookUrl = process.argv[2];
 
-if (!webhookUrl) {
-  try {
-    const raw = execSync('yc serverless function get --name avito-bridge --format json', { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
-    const fnData = JSON.parse(raw);
-    if (fnData?.id) {
-      webhookUrl = `https://functions.yandexcloud.net/${fnData.id}`;
-      console.log(`ℹ️ Найден URL функции в Yandex Cloud: ${webhookUrl}`);
-    }
-  } catch (err) {
-    // yc не ответил или функция не создана
-  }
-}
-
-if (!webhookUrl) {
-  console.error('❌ Ошибка: Укажите URL функции:');
-  console.error('  node scripts/register-telegram-webhook.js https://functions.yandexcloud.net/<FUNCTION_ID>');
-  process.exit(1);
-}
+if (!webhookUrl || !webhookUrl.startsWith('https://')) { console.error('Explicit verified HTTPS webhook URL required'); process.exit(1); }
 
 async function main() {
-  console.log(`📡 Регистрация Telegram Webhook на адрес:\n   ${webhookUrl}...`);
+  console.log('Регистрация Telegram webhook');
   try {
     const res = await setTelegramWebhook(token, webhookUrl);
-    console.log('✅ Результат установки Webhook в Telegram:', res);
+    console.log('Telegram registration completed; verifying status.');
 
     console.log('🔍 Проверка статуса (getWebhookInfo)...');
     const info = await getTelegramWebhookInfo(token);
-    console.log('📊 Статус Telegram Webhook:', JSON.stringify(info.result, null, 2));
+    console.log('📊 Статус Telegram Webhook:', JSON.stringify({ pending_update_count: info.result?.pending_update_count, configured: Boolean(info.result?.url) }));
   } catch (err) {
-    console.error('❌ Ошибка при регистрации Webhook в Telegram:', err.message);
+    console.error('Telegram registration outcome unknown; inspect provider before retry.');
     process.exit(1);
   }
 }
